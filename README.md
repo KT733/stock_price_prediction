@@ -1,4 +1,4 @@
-# Stock Price Prediction Using RNN
+# Most Active Stocks Price Predictions and Visualizations
 
 ## Overview
 This project aims to predict tomorrow's stock price (close price) for a specified ticker using Long Short-Term Memory (LSTM). The prediction is based on today's relevant stock information, including open, high, and low prices for the baseline model.
