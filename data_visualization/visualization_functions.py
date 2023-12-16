@@ -11,12 +11,14 @@ from datetime import datetime
 from itertools import permutations
 from itertools import combinations
 
+# all possible technical indicator choices
 indices=['Moving Average (MA)','Moving Average Convergence Divergence (MACD)',
                    'Average True Rate (ATR)','Relative Strength Index (RSI)']
 
 one_choice=[['Moving Average (MA)'],['Moving Average Convergence Divergence (MACD)'],
                 ['Average True Rate (ATR)'],['Relative Strength Index (RSI)']]
 
+# function that converts permutations of elements to list form
 def permutation_to_list(comb):
     new_list=[]
     for i in list(comb):
@@ -24,12 +26,14 @@ def permutation_to_list(comb):
         new_list.append(i)
     return new_list
 
+# create list containing all potential selections of indices with all orders considered
 all_choices=[]
 for i in range(1,5):
     perm=permutations(indices,i)
     perm=permutation_to_list(perm)
     all_choices=all_choices+perm
-
+    
+# function used to plot default graph that contains historical prices and volume over the past five years
 def default_graph(df,ticker,chart):
     price_graph = make_subplots(rows=2, cols=1, shared_xaxes=True, 
                vertical_spacing=0.05, subplot_titles=('Price', 'Volume'),row_width=[0.3,0.7])
@@ -58,6 +62,7 @@ def price_volume_graph_by_chart(price_graph,df,chart):
     price_graph.add_trace(go.Bar(x=df['Date'], y=df['Volume'],showlegend=True,name='Volume'), row=2, col=1)
     return price_graph
 
+# add title to overall plot based on chart type selection
 def update_title(price_graph,ticker,chart):
     if chart=='Time Series Chart':
         price_graph.update_layout(title_text=ticker+" Stock Price & Volume Time Series Chart")
@@ -67,6 +72,7 @@ def update_title(price_graph,ticker,chart):
         price_graph.update_layout(title_text=ticker+" Stock Price & Volume OHLC Chart")
     return price_graph
 
+# graph outputs when only one of the four indices is selected
 def one_indice(df,ticker,chart,choice):
     rows = len(df.axes[0])
     if choice==['Moving Average (MA)']:
@@ -111,6 +117,7 @@ def one_indice(df,ticker,chart,choice):
         price_graph.update_layout(height=900, width=1350)
     return price_graph
 
+# graph outputs when two of the four indices are selected
 def two_indices(df,ticker,chart,choice):
     rows = len(df.axes[0])
     if choice in permutation_to_list(permutations(['Moving Average (MA)','Moving Average Convergence Divergence (MACD)'], 2)):
@@ -208,6 +215,7 @@ def two_indices(df,ticker,chart,choice):
         price_graph.update_layout(height=1100, width=1350)
     return price_graph
 
+# graph outputs when three of the four indices are selected
 def three_indices(df,ticker,chart,choice):
     rows = len(df.axes[0])
     if choice in permutation_to_list(permutations(['Moving Average (MA)','Moving Average Convergence Divergence (MACD)','Average True Rate (ATR)'], 3)):
@@ -291,6 +299,7 @@ def three_indices(df,ticker,chart,choice):
         price_graph.update_layout(height=1300, width=1350)
     return price_graph
 
+# graph output when all four indices are selected
 def four_indices(df,ticker,chart,choice):
     rows = len(df.axes[0])
     if choice in permutation_to_list(permutations(indices, 4)):
